@@ -54,6 +54,9 @@
             @apply text-white font-mono text-sm;
             content: attr(data-samples) '/' attr(data-total-samples);
         }
+        #gallery div:not([data-samples]) {
+            @apply cursor-pointer;
+        }
         #gallery:has(*) {
             @apply sm:mx-4 flex flex-col max-w-full overflow-x-auto xl:min-w-64 xl:overflow-y-auto xl:overflow-x-auto xl:h-[calc(100vh_-_2rem)] xl:fixed xl:left-[39rem] xl:p-4 xl:bg-neutral-100 xl:rounded-xl;
         }

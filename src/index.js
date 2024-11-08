@@ -35,9 +35,15 @@ document.getElementById('submit')
         const imageOption = document.getElementById('image').elements['image'].value;
         let image = gradient;
         switch (imageOption) {
-            case 'example1': image = example1; break;
-            case 'example2': image = example2; break;
-            case 'example3': image = example3; break;
+            case 'example1':
+                image = example1;
+                break;
+            case 'example2':
+                image = example2;
+                break;
+            case 'example3':
+                image = example3;
+                break;
             case 'custom':
                 let inputImage = document.getElementById('inputImage').files[0];
                 if (inputImage !== undefined) {
@@ -47,7 +53,10 @@ document.getElementById('submit')
         }
 
         // Initialise scene, renderer, camera, etc.
-        const renderer = new WebGLRenderer({antialias: true});
+        const renderer = new WebGLRenderer({
+            antialias: true,
+            preserveDrawingBuffer: true
+        });
         const camera = new PerspectiveCamera();
         const scene = new Scene();
         const pathTracer = new WebGLPathTracer(renderer);
@@ -56,7 +65,7 @@ document.getElementById('submit')
         const element = document.getElementById('gallery').insertAdjacentElement('afterbegin', elementContainer);
         setTimeout(function () {
             element.scrollIntoView();
-        },10);
+        }, 10);
         element.dataset.totalSamples = samples;
 
         // Arrange the mirrors.
@@ -138,6 +147,14 @@ document.getElementById('submit')
             if (sampleCount > samples) {
                 delete element.dataset.samples;
                 delete element.dataset.totalSamples;
+                element.addEventListener('click', () => {
+                    const image = element.getElementsByTagName('canvas')[0]
+                        .toDataURL('image/jpeg', 1.0);
+                    const a = document.createElement('a');
+                    a.href = image;
+                    a.download = 'kaleidoscope.jpg';
+                    a.click();
+                })
                 return;
             }
             requestAnimationFrame(animate);
