@@ -2,7 +2,8 @@
   "name": "kaleidoscope-threejs-path-tracing",
   "version": "1.0.0",
   "scripts": {
-    "serve": "npx parcel src/index.html"
+    "serve": "parcel src/index.html",
+    "build": "parcel build src/index.html"
   },
   "author": "Leif Gehrmann",
   "license": "MIT",
