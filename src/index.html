@@ -54,7 +54,7 @@
             @apply text-white font-mono text-sm;
             content: attr(data-samples) '/' attr(data-total-samples);
         }
-        #gallery div:not([data-samples]) {
+        #gallery div:not([data-samples]) canvas {
             @apply cursor-pointer;
         }
         #gallery:has(*) {

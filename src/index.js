@@ -147,8 +147,9 @@ document.getElementById('submit')
             if (sampleCount > samples) {
                 delete element.dataset.samples;
                 delete element.dataset.totalSamples;
-                element.addEventListener('click', () => {
-                    const image = element.getElementsByTagName('canvas')[0]
+                const canvas = element.getElementsByTagName('canvas')[0];
+                canvas.addEventListener('click', () => {
+                    const image = canvas
                         .toDataURL('image/jpeg', 1.0);
                     const a = document.createElement('a');
                     a.href = image;
