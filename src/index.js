@@ -70,18 +70,19 @@ document.getElementById('submit')
 
         // Arrange the mirrors.
         for (let i = 0; i < sides; i++) {
+            const angleOffset = Math.PI;
             const panel = new Mesh(
-                new BoxGeometry(10, 0.02, length),
+                new BoxGeometry(10, 0.001, length),
                 new MeshStandardMaterial({
                     color,
                     roughness,
                     metalness,
                 })
             );
-            panel.translateY(Math.cos(i / sides * Math.PI * 2))
-            panel.translateX(Math.sin(i / sides * Math.PI * 2))
+            panel.translateY(Math.cos(i / sides * Math.PI * 2 + angleOffset))
+            panel.translateX(Math.sin(i / sides * Math.PI * 2 + angleOffset))
             panel.translateZ(-length / 2);
-            panel.rotateZ((-i) / sides * Math.PI * 2)
+            panel.rotateZ((-i) / sides * Math.PI * 2 + angleOffset)
             scene.add(panel);
         }
 
@@ -129,8 +130,11 @@ document.getElementById('submit')
                 roughness: 1,
                 metalness: 0,
             });
-            const geom = new BoxGeometry(4, 0.01, 4);
+            const size = Math.sqrt(3) * 2;
+            const geom = new BoxGeometry(size, 0.01, size);
             const mesh = new Mesh(geom, mat);
+            mesh.translateY(Math.sqrt(3) - 1);
+            mesh.translateX(0);
             mesh.rotateX(-Math.PI / 2);
             mesh.rotateZ(-Math.PI);
             scene.add(mesh);
