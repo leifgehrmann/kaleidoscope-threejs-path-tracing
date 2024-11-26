@@ -130,10 +130,10 @@ document.getElementById('submit')
                 roughness: 1,
                 metalness: 0,
             });
-            const size = Math.sqrt(3) * 2;
+            const size = Math.sin(Math.PI/5) * 4;
             const geom = new BoxGeometry(size, 0.01, size);
             const mesh = new Mesh(geom, mat);
-            mesh.translateY(Math.sqrt(3) - 1);
+            mesh.translateY(0.175);
             mesh.translateX(0);
             mesh.rotateX(-Math.PI / 2);
             mesh.rotateZ(-Math.PI);

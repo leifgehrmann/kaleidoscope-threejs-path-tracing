@@ -89,7 +89,7 @@
     <fieldset>
         <div class="field">
             <label for="sides">Number of mirrors</label>
-            <input id="sides" type="number" value="3" min="1">
+            <input id="sides" type="number" value="5" min="1">
             <p>Only 3 or 4 mirrors will produce a kaleidoscopic effect. See Wikipedia's article on <a href="https://en.wikipedia.org/wiki/Edge_tessellation" target="_blank">edge&nbsp;tessellation</a> for an explanation.</p>
         </div>
         <div class="field">
@@ -115,20 +115,20 @@
         <div class="field">
             <label>Image</label>
             <form id="image">
-                <label for="example1"><input type="radio" id="example1" name="image" value="example1" checked /> Traquair</label>
+                <label for="example1"><input type="radio" id="example1" name="image" value="example1" /> Traquair</label>
                 <label for="example2"><input type="radio" id="example2" name="image" value="example2" /> Jawlensky</label>
                 <label for="example3"><input type="radio" id="example3" name="image" value="example3" /> Mackintosh</label>
-                <label for="gradient"><input type="radio" id="gradient" name="image" value="gradient" /> Gradient</label>
+                <label for="gradient"><input type="radio" id="gradient" name="image" value="gradient" checked /> Gradient</label>
                 <label for="custom"><input type="radio" id="custom" name="image" value="custom" /> Custom <input id="inputImage" type="file" accept="image/png, image/jpeg"></label>
             </form>
         </div>
         <div class="field">
             <label for="bounces">Light bounces</label>
-            <input id="bounces" type="number" value="20" min="1" step="1">
+            <input id="bounces" type="number" value="2" min="1" step="1">
         </div>
         <div class="field">
             <label for="samples">Samples</label>
-            <input id="samples" type="number" value="500" min="1" step="1">
+            <input id="samples" type="number" value="200" min="1" step="1">
         </div>
         <div class="field">
             <label for="size">Output size (pixels)</label>
