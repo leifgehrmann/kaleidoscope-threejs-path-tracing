@@ -100,7 +100,7 @@ document.getElementById('submit')
             renderer.toneMapping = LinearToneMapping;
 
 
-            pathTracer.bounces = bounces
+            pathTracer.bounces = bounces + 1
             pathTracer.renderScale = 1 / window.devicePixelRatio;
             pathTracer.tiles.setScalar(3);
             pathTracer.setScene(scene, camera);
