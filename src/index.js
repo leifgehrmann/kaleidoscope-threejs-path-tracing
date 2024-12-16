@@ -69,23 +69,77 @@ document.getElementById('submit')
         element.dataset.totalSamples = samples;
 
         // Arrange the mirrors.
-        const angles = [-Math.PI / 10, Math.PI / 10]
-        for (let i = 0; i < 2; i++) {
+        // for (let i = 0; i < 1; i++) {
+        //     const panel = new Mesh(
+        //         new BoxGeometry(4.5, 0.02, 4.5),
+        //         new MeshStandardMaterial({
+        //             color,
+        //             roughness,
+        //             metalness,
+        //         })
+        //     );
+        //     const distance = 1.25;
+        //     const thetaOffset = 0;
+        //     panel.translateY(Math.cos(thetaOffset + i / sides * Math.PI) * distance)
+        //     panel.translateX(Math.sin(thetaOffset + i / sides * Math.PI) * distance)
+        //     panel.translateZ(-4.5 / 2 - 0.02);
+        //     panel.rotateZ(thetaOffset + (-i) / sides * Math.PI * 2)
+        //     scene.add(panel);
+        // }
+
+        // Arrange the mirrors.
+        // const angles = [-Math.PI / 10, Math.PI / 10]
+        // for (let i = 0; i < 2; i++) {
+        //     const panel = new Mesh(
+        //         new BoxGeometry(4.5, 0.02, 4.5),
+        //         new MeshStandardMaterial({
+        //             color,
+        //             roughness,
+        //             metalness,
+        //         })
+        //     );
+        //     const distance = 1.25;
+        //     const thetaOffset = 0;
+        //     panel.translateY(-0.5)
+        //     panel.translateX(Math.sin(thetaOffset + angles[i]) * 4.58 / 2)
+        //     panel.translateZ(-4.5 / 2 - 0.02);
+        //     panel.rotateZ(thetaOffset + angles[i] + Math.PI / 2)
+        //     scene.add(panel);
+        // }
+
+        // Arrange the mirrors.
+        for (let i = 0; i < 3; i++) {
+            const sideLength = 3.4;
+            const height = 4.5
             const panel = new Mesh(
-                new BoxGeometry(4.5, 0.02, 4.5),
+                new BoxGeometry(sideLength, 0.02, height),
                 new MeshStandardMaterial({
                     color,
                     roughness,
                     metalness,
                 })
             );
-            const distance = 1.25;
-            const thetaOffset = 0;
-            panel.translateY(-0.5)
-            panel.translateX(Math.sin(thetaOffset + angles[i]) * 4.58 / 2)
-            panel.translateZ(-4.5 / 2 - 0.02);
-            panel.rotateZ(thetaOffset + angles[i] + Math.PI / 2)
+            const distance = sideLength * (1.303 / 4.5);
+            const thetaOffset = 0.2;
+            panel.translateY(Math.cos(thetaOffset + i / sides * Math.PI * 2) * distance)
+            panel.translateX(Math.sin(thetaOffset + i / sides * Math.PI * 2) * distance)
+            panel.translateZ(-height / 2 - 0.02);
+            panel.rotateZ(-thetaOffset + (-i) / sides * Math.PI * 2)
             scene.add(panel);
+
+            const outerPanel = new Mesh(
+                new BoxGeometry(sideLength + 0.02, 0.002, height),
+                new MeshStandardMaterial({
+                    color: '#FF0000',
+                    roughness: 0.4,
+                    metalness: 0.5
+                })
+            );
+            outerPanel.translateY(Math.cos(thetaOffset + i / sides * Math.PI * 2) * distance*1.01)
+            outerPanel.translateX(Math.sin(thetaOffset + i / sides * Math.PI * 2) * distance*1.01)
+            outerPanel.translateZ(-height / 2 - 0.02);
+            outerPanel.rotateZ(-thetaOffset + (-i) / sides * Math.PI * 2)
+            scene.add(outerPanel);
         }
 
         function startRenderer(scene) {
@@ -100,7 +154,7 @@ document.getElementById('submit')
             // camera.position.set(0, -4, -length);
             // camera.lookAt(0, 2, 0);
 
-            camera.position.set(0, -7, -length / 1.75);
+            camera.position.set(0, -6, -length / 1.2);
             camera.lookAt(0, 2, 0);
 
             renderer.toneMapping = LinearToneMapping;
@@ -129,7 +183,7 @@ document.getElementById('submit')
         const backdrop = new Mesh(
             new BoxGeometry(1000, 0.01, 1000),
             new MeshStandardMaterial({
-                color: light ? "#F8F8F8" : "#666666",
+                color: light ? "#F8F8F8" : "#EEEEEE",
             })
         );
         backdrop.rotateX(-Math.PI / 2);
