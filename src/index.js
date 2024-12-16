@@ -69,33 +69,38 @@ document.getElementById('submit')
         element.dataset.totalSamples = samples;
 
         // Arrange the mirrors.
-        for (let i = 0; i < sides; i++) {
+        for (let i = 0; i < 1; i++) {
             const panel = new Mesh(
-                new BoxGeometry(10, 0.02, length),
+                new BoxGeometry(4.5, 0.02, 4.5),
                 new MeshStandardMaterial({
                     color,
                     roughness,
                     metalness,
                 })
             );
-            panel.translateY(Math.cos(i / sides * Math.PI * 2))
-            panel.translateX(Math.sin(i / sides * Math.PI * 2))
-            panel.translateZ(-length / 2);
-            panel.rotateZ((-i) / sides * Math.PI * 2)
+            const distance = 1.25;
+            const thetaOffset = 0;
+            panel.translateY(Math.cos(thetaOffset + i / sides * Math.PI) * distance)
+            panel.translateX(Math.sin(thetaOffset + i / sides * Math.PI) * distance)
+            panel.translateZ(-4.5 / 2);
+            panel.rotateZ(thetaOffset + (-i) / sides * Math.PI * 2)
             scene.add(panel);
         }
 
         function startRenderer(scene) {
             // set the environment map
             const texture = new GradientEquirectTexture();
-            texture.bottomColor.set(0xffffff);
-            texture.bottomColor.set(0xffffff);
+            texture.topColor.set(0xFFFFFF);
+            texture.bottomColor.set(0xFFFFFF);
             texture.update();
             scene.environment = texture;
             scene.background = texture;
 
-            camera.position.set(0, 0, -length);
-            camera.lookAt(0, 0, 0);
+            // camera.position.set(0, -4, -length);
+            // camera.lookAt(0, 2, 0);
+
+            camera.position.set(0, -6, -length / 1.5);
+            camera.lookAt(0, 2, 0);
 
             renderer.toneMapping = LinearToneMapping;
 
@@ -119,13 +124,23 @@ document.getElementById('submit')
             animate();
         }
 
+        const light= false
+        const backdrop = new Mesh(
+            new BoxGeometry(1000, 0.01, 1000),
+            new MeshStandardMaterial({
+                color: light ? "#F8F8F8" : "#212121",
+            })
+        );
+        backdrop.rotateX(-Math.PI / 2);
+        backdrop.rotateZ(-Math.PI);
+        backdrop.translateY(100);
+        scene.add(backdrop);
+
         new TextureLoader().load(image, (texture) => {
             texture.colorSpace = SRGBColorSpace;
             const mat = new MeshPhysicalMaterial({
+                color: "#FFFFFF",
                 map: texture,
-                transparent: true,
-                opacity: 1,
-                transmission: 1,
                 roughness: 1,
                 metalness: 0,
             });
