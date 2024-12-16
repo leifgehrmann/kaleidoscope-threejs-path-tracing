@@ -69,7 +69,8 @@ document.getElementById('submit')
         element.dataset.totalSamples = samples;
 
         // Arrange the mirrors.
-        for (let i = 0; i < 1; i++) {
+        const angles = [-Math.PI / 10, Math.PI / 10]
+        for (let i = 0; i < 2; i++) {
             const panel = new Mesh(
                 new BoxGeometry(4.5, 0.02, 4.5),
                 new MeshStandardMaterial({
@@ -80,10 +81,10 @@ document.getElementById('submit')
             );
             const distance = 1.25;
             const thetaOffset = 0;
-            panel.translateY(Math.cos(thetaOffset + i / sides * Math.PI) * distance)
-            panel.translateX(Math.sin(thetaOffset + i / sides * Math.PI) * distance)
-            panel.translateZ(-4.5 / 2);
-            panel.rotateZ(thetaOffset + (-i) / sides * Math.PI * 2)
+            panel.translateY(-0.5)
+            panel.translateX(Math.sin(thetaOffset + angles[i]) * 4.58 / 2)
+            panel.translateZ(-4.5 / 2 - 0.02);
+            panel.rotateZ(thetaOffset + angles[i] + Math.PI / 2)
             scene.add(panel);
         }
 
@@ -99,7 +100,7 @@ document.getElementById('submit')
             // camera.position.set(0, -4, -length);
             // camera.lookAt(0, 2, 0);
 
-            camera.position.set(0, -6, -length / 1.5);
+            camera.position.set(0, -7, -length / 1.75);
             camera.lookAt(0, 2, 0);
 
             renderer.toneMapping = LinearToneMapping;
@@ -128,12 +129,12 @@ document.getElementById('submit')
         const backdrop = new Mesh(
             new BoxGeometry(1000, 0.01, 1000),
             new MeshStandardMaterial({
-                color: light ? "#F8F8F8" : "#212121",
+                color: light ? "#F8F8F8" : "#666666",
             })
         );
         backdrop.rotateX(-Math.PI / 2);
         backdrop.rotateZ(-Math.PI);
-        backdrop.translateY(100);
+        backdrop.translateY(0.02);
         scene.add(backdrop);
 
         new TextureLoader().load(image, (texture) => {
