@@ -3,6 +3,7 @@ import {
     MeshStandardMaterial,
     Mesh,
     BoxGeometry,
+    SphereGeometry,
     PerspectiveCamera,
     SRGBColorSpace,
     WebGLRenderer,
@@ -10,7 +11,7 @@ import {
     LinearToneMapping, MeshPhysicalMaterial,
 } from 'three';
 import {WebGLPathTracer, GradientEquirectTexture} from 'three-gpu-pathtracer';
-import example1 from "./traquair.jpg";
+import example1 from "./lady.png";
 import example2 from "./jawlensky.jpg";
 import example3 from "./mackintosh.jpg";
 import gradient from "./gradient.png";
@@ -68,10 +69,48 @@ document.getElementById('submit')
         }, 10);
         element.dataset.totalSamples = samples;
 
+        const ballRadius = 3;
+        const addBall = false;
+        const ball = new Mesh(
+            new SphereGeometry(ballRadius, 60, 60),
+            new MeshPhysicalMaterial({
+                color: "#FFF",
+                transparent: true,
+                emissive: '#000000',
+                emissiveIntensity: 1,
+                roughness: 0,
+                metalness: 0,
+                ior: 1.52, // Window glass
+                transmission: 1.0,
+                thinFilm: false,
+                attenuationColor: '#ffffff',
+                attenuationDistance: 1,
+                opacity: 1.0,
+                clearcoat: 0.0,
+                clearcoatRoughness: 0.0,
+                sheenColor: '#000000',
+                sheenRoughness: 0.0,
+                iridescence: 0.0,
+                iridescenceIOR: 0,
+                iridescenceThickness: 1000,
+                specularColor: '#FFFFFF',
+                specularIntensity: 0.0, // Changing this to 1 makes it more visible
+                matte: false,
+                flatShading: false,
+                castShadow: true,
+            })
+        );
+        ball.translateX(0)
+        ball.translateZ(ballRadius)
+        ball.translateY(0)
+        if (addBall) {
+            scene.add(ball);
+        }
+
         // Arrange the mirrors.
         for (let i = 0; i < sides; i++) {
             const panel = new Mesh(
-                new BoxGeometry(10, 0.02, length),
+                new BoxGeometry(3.43, 0.02, length),
                 new MeshStandardMaterial({
                     color,
                     roughness,
@@ -83,6 +122,36 @@ document.getElementById('submit')
             panel.translateZ(-length / 2);
             panel.rotateZ((-i) / sides * Math.PI * 2)
             scene.add(panel);
+
+            const casing = new Mesh(
+                new BoxGeometry(3.48, 0.001, length),
+                new MeshStandardMaterial({
+                    color: "#FF0000",
+                    roughness: 1,
+                    metalness,
+                })
+            );
+            casing.translateY(Math.cos(i / sides * Math.PI * 2)*1.011)
+            casing.translateX(Math.sin(i / sides * Math.PI * 2)*1.011)
+            casing.translateZ(-length / 2);
+            casing.rotateZ((-i) / sides * Math.PI * 2)
+            scene.add(casing);
+
+            // if (addBall) {
+            //     const outerCasing = new Mesh(
+            //         new BoxGeometry(ballRadius * 2 * Math.sqrt(3), 0.001, length + ballRadius),
+            //         new MeshStandardMaterial({
+            //             color: "#00FF00",
+            //             roughness: 1,
+            //             metalness,
+            //         })
+            //     );
+            //     outerCasing.translateY(Math.cos(i / sides * Math.PI * 2) * ballRadius)
+            //     outerCasing.translateX(Math.sin(i / sides * Math.PI * 2) * ballRadius)
+            //     outerCasing.translateZ(-(length + ballRadius) / 2);
+            //     outerCasing.rotateZ((-i) / sides * Math.PI * 2)
+            //     scene.add(outerCasing);
+            // }
         }
 
         function startRenderer(scene) {
@@ -95,6 +164,12 @@ document.getElementById('submit')
             scene.background = texture;
 
             camera.position.set(0, 0, -length);
+            camera.lookAt(0, 0, 0);
+
+            // camera.position.set(4, length, -length*3);
+            // camera.lookAt(0, 0, 0);
+
+            camera.position.set(5, 2, -length*1.5);
             camera.lookAt(0, 0, 0);
 
             renderer.toneMapping = LinearToneMapping;
@@ -123,17 +198,31 @@ document.getElementById('submit')
             texture.colorSpace = SRGBColorSpace;
             const mat = new MeshPhysicalMaterial({
                 map: texture,
-                transparent: true,
-                opacity: 1,
-                transmission: 1,
+                // transparent: true,
+                // opacity: 1,
+                // transmission: 1,
                 roughness: 1,
                 metalness: 0,
             });
-            const geom = new BoxGeometry(4, 0.01, 4);
+            const geom = new BoxGeometry(100, 0.01, 100);
             const mesh = new Mesh(geom, mat);
             mesh.rotateX(-Math.PI / 2);
             mesh.rotateZ(-Math.PI);
+            mesh.translateY(100);
+            mesh.translateZ(0);
             scene.add(mesh);
+
+            const backdropMat = new MeshPhysicalMaterial({
+                color: '#000',
+                roughness: 1,
+                metalness: 0,
+            });
+            const backdropGeom = new BoxGeometry(200, 0.01, 200);
+            const backdrop = new Mesh(backdropGeom, backdropMat);
+            backdrop.rotateX(-Math.PI / 2);
+            backdrop.rotateZ(-Math.PI);
+            backdrop.translateY(101);
+            scene.add(backdrop);
 
             startRenderer(scene);
         }, () => {
